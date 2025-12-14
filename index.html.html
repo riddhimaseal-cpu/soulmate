@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Two Month with Arghajit ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body { margin:0; font-family:'Segoe UI',sans-serif; background:#0f0f0f; color:white; overflow:hidden; }
+.scene { display:none; height:100vh; width:100vw; padding:40px; box-sizing:border-box; text-align:center; animation:fadeIn 1.2s ease; }
+.scene.active { display:flex; flex-direction:column; justify-content:center; align-items:center; }
+.typing { font-size:32px; white-space:pre-wrap; overflow:hidden; opacity:0; }
+.pop { display:inline-block; opacity:0; transform:scale(0); animation:popIn 0.6s forwards; }
+@keyframes popIn { to { opacity:1; transform:scale(1); } }
+img { max-width:80%; max-height:50vh; border-radius:20px; margin:20px 0; box-shadow:0 10px 40px rgba(0,0,0,0.6); opacity:0; transition: opacity 1s ease; }
+button { margin-top:25px; padding:12px 26px; border:none; border-radius:30px; font-size:16px; cursor:pointer; background:linear-gradient(135deg,#ff5f6d,#ffc371); color:#000; font-weight:bold; }
+.music-btn { position:fixed; top:20px; right:20px; background:rgba(255,255,255,0.15); color:white; border:1px solid rgba(255,255,255,0.3); padding:8px 14px; border-radius:20px; cursor:pointer; backdrop-filter:blur(6px); }
+.box { width:120px; height:120px; background:linear-gradient(135deg,#ff5f6d,#ffc371); border-radius:16px; display:flex; align-items:center; justify-content:center; font-size:40px; cursor:pointer; margin:20px auto; animation:bounce 1.2s infinite; }
+@keyframes bounce {0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.hidden-msg { display:none; font-size:30px; margin-top:20px; animation:pop 0.6s ease; }
+@keyframes pop { from{transform:scale(0);opacity:0} to{transform:scale(1);opacity:1} }
+.float { position:fixed; bottom:-50px; font-size:24px; animation:rise 6s linear infinite; opacity:0.8; }
+@keyframes rise { to{transform:translateY(-110vh);opacity:0} }
+@keyframes fadeIn { from{opacity:0;transform:scale(0.95);} to{opacity:1;transform:scale(1);} }
+</style>
+</head>
+
+<body>
+
+<button class="music-btn" onclick="toggleMusic()">🎵 Music</button>
+<audio id="srkMusic" loop>
+  <source src="ADD_MOHABBATEIN_INSTRUMENTAL_MP3_LINK_HERE" type="audio/mpeg">
+</audio>
+
+<!-- SCENES -->
+
+<section class="scene active">
+  <h1 class="typing" id="introMain">Arghajit cutie👀</h1>
+  <h1 class="typing">My AJAB PREM KI GAJAB KAHANI Ke Prem</h1>
+  <p class="typing" id="introSub">Scan kiya hai toh kuch toh special hona chahiye na?</p>
+  <img src="https://i.pinimg.com/736x/a3/6f/4d/a36f4d737504e73fd464eef33db0a280.jpg" />
+  <button onclick="nextScene()">Okay… continue 😌</button>
+</section>
+
+<section class="scene">
+  <h1 class="typing">Do mahina ho gaya 😭</h1>
+  <p class="typing">Fights 🤝 drama 🤝 nonsense 🤝 pyaar</p>
+  <img src="https://filmfare.wwmindia.com/content/2019/nov/ajabpremkigajabkahani61573041137.jpg" />
+  <button onclick="nextScene()">Yeh toh bas shuruaat hai</button>
+</section>
+
+<section class="scene">
+  <h1 class="typing">Ghoti vs Bangal ⚽</h1>
+  <p class="typing">Aami Ghoti,Tui Bangal. Still we are together ❤️</p>
+  <p class="typing">Rivals to lovers</p>
+  <img src="https://bollywoodlaughs.wordpress.com/wp-content/uploads/2009/12/ajab-prem-ki-ghazab-kahani-wallpaper.jpg" />
+  <button onclick="nextScene()">Truce? 🤝</button>
+</section>
+
+<section class="scene">
+  <h1 class="typing">And…SRK said.. "Pyaar dosti hai" — and we nailed it ✨</h1>
+  <img src="https://i.pinimg.com/736x/7f/ec/69/7fec69a71c320d5d42b4d32f6b726efb.jpg" />
+  <p class="typing">(Music on karo na 🥺)</p>
+  <button onclick="playSRK(); nextScene()">Next 🎬</button>
+</section>
+
+<section class="scene">
+  <h1 class="typing">Final Surprise 🎁</h1>
+  <div class="box" onclick="openBox()">🎁</div>
+  <div class="hidden-msg" id="finalMsg">🎉 HAPPY TWO MONTH ANNIVERSARY ❤️ 🎉</div>
+  <p class="typing">Now give your malkin a tight hug.</p>
+  <img src="https://i.pinimg.com/736x/9f/f8/4f/9ff84fb0fc9b7e95d4563f9c049bd034.jpg" />
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+
+const scenes=document.querySelectorAll('.scene');
+let current=0;
+const music=document.getElementById('srkMusic');
+
+// Hide all text & images initially
+scenes.forEach(scene=>{
+  scene.querySelectorAll('.typing').forEach(t=>t.style.opacity=0);
+  const img=scene.querySelector('img');
+  if(img) img.style.opacity=0;
+});
+
+function popText(el,callback){
+  if(!el) return;
+  el.classList.add('pop');
+  setTimeout(()=>{ if(callback) callback(); },600);
+}
+
+function typeText(el,callback){
+  if(!el) return;
+  const text=el.innerText;
+  el.innerText='';
+  el.style.opacity=1;
+  let i=0;
+  const interval=setInterval(()=>{
+    el.innerText+=text.charAt(i);
+    i++;
+    if(i>=text.length){
+      clearInterval(interval);
+      if(callback) callback();
+    }
+  },60);
+}
+
+window.nextScene=function(){
+  if(!scenes[current]) return;
+  scenes[current].classList.remove('active');
+  current++;
+  if(scenes[current]){
+    scenes[current].classList.add('active');
+    const headings=scenes[current].querySelectorAll('h1.typing');
+    const subText=scenes[current].querySelectorAll('p.typing');
+    const img=scenes[current].querySelector('img');
+
+    let index=0;
+    function animateHeading(){
+      if(index>=headings.length){
+        if(img) img.style.opacity=1;
+        subText.forEach(p=>typeText(p));
+        return;
+      }
+      popText(headings[index],()=>{ index++; animateHeading(); });
+    }
+    animateHeading();
+  }
+};
+
+window.toggleMusic=function(){ music.paused?music.play():music.pause(); };
+window.playSRK=function(){ music.play(); };
+
+window.openBox=function(){
+  const msg=document.getElementById('finalMsg');
+  msg.style.display='block';
+  for(let i=0;i<30;i++){
+    const el=document.createElement('div');
+    el.className='float';
+    el.innerText=Math.random()>0.5?'❤️':'🎈';
+    el.style.left=Math.random()*100+'vw';
+    el.style.animationDuration=4+Math.random()*3+'s';
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(),7000);
+  }
+};
+
+// Animate first scene
+const firstHeadings=document.querySelectorAll('.scene.active h1.typing');
+const firstSub=document.querySelectorAll('.scene.active p.typing');
+const firstImg=document.querySelector('.scene.active img');
+let idx=0;
+function animateFirst(){
+  if(idx>=firstHeadings.length){
+    if(firstImg) firstImg.style.opacity=1;
+    firstSub.forEach(p=>typeText(p));
+    return;
+  }
+  popText(firstHeadings[idx],()=>{ idx++; animateFirst(); });
+}
+animateFirst();
+
+});
+</script>
+
+</body>
+</html>
